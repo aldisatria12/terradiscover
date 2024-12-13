@@ -1,0 +1,7 @@
+*.env
+tmp/
+node_modules/
+data.ms/
+index.csv
+meilisearch
+.vite/
