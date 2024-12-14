@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS users (
 	password VARCHAR(100),
 	email VARCHAR(100),
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     deleted_at TIMESTAMP
 );
 
@@ -15,6 +15,6 @@ CREATE TABLE IF NOT EXISTS contacts (
 	phone VARCHAR(15),
 	email VARCHAR(100),
 	created_at TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
     deleted_at TIMESTAMP
 );

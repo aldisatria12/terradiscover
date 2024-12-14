@@ -28,6 +28,7 @@ func NewRoute(db *sql.DB) Route {
 func (route *Route) SetRoutes() http.Handler {
 	r := gin.New()
 	r.POST("/user/login", route.userHandler.Login)
+	r.POST("/user/register", route.userHandler.Register)
 
 	return r
 }

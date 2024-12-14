@@ -53,3 +53,38 @@ func (h UserHandler) Login(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response)
 }
+
+func (h UserHandler) Register(c *gin.Context) {
+	var newUser dto.UserRegisterRequest
+	err := c.ShouldBindJSON(&newUser)
+
+	if err != nil {
+		c.Error(err)
+
+		return
+	}
+
+	validate := validator.New()
+	err = validate.Struct(newUser)
+
+	if err != nil {
+		c.Error(err)
+
+		return
+	}
+
+	result, err := h.userService.Register(c, newUser)
+
+	if err != nil {
+		c.Error(err)
+
+		return
+	}
+
+	response := gin.H{
+		"Msg":  "OK",
+		"Data": result,
+	}
+
+	c.JSON(http.StatusOK, response)
+}
