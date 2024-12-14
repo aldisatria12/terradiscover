@@ -25,9 +25,9 @@ func NewUserRepository(db DBTX) userRepository {
 func (r userRepository) Login(ctx context.Context, input entity.User) (entity.User, error) {
 	var getUser entity.User
 
-	query := `SELECT id, password FROM users WHERE username = $1;`
+	query := `SELECT id, password FROM users WHERE email = $1;`
 
-	err := r.db.QueryRowContext(ctx, query, input.Username).Scan(&getUser.Id, &getUser.Password)
+	err := r.db.QueryRowContext(ctx, query, input.Email).Scan(&getUser.Id, &getUser.Password)
 
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -41,8 +41,9 @@ func (r userRepository) Login(ctx context.Context, input entity.User) (entity.Us
 
 func (r userRepository) Register(ctx context.Context, input entity.User) (entity.User, error) {
 	result := input
+	var userId int
 	query := "INSERT INTO users(username, password, email) VALUES ($1, $2, $3) RETURNING id;"
-	err := r.db.QueryRowContext(ctx, query, input.Username, input.Password, input.Email).Scan()
+	err := r.db.QueryRowContext(ctx, query, input.Username, input.Password, input.Email).Scan(&userId)
 
 	if err != nil {
 		return entity.User{}, apperror.NewError(err, apperror.ErrQuery)
