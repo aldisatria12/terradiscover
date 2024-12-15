@@ -8,7 +8,7 @@ import (
 )
 
 type ContactRepository interface {
-	GetContact(ctx context.Context, token int) ([]entity.Contact, error)
+	GetContact(ctx context.Context, userId int) ([]entity.Contact, error)
 }
 
 type contactRepository struct {
