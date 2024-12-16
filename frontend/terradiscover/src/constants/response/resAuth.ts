@@ -1,5 +1,8 @@
 export type ResLogin = {
-  token: string;
+  Data: {
+    token: string;
+  }
+  Msg: string;
 };
 
 export type ResRegister = {

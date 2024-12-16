@@ -57,7 +57,8 @@ export const {
 export const login = (input: inputLogin) => {
   return async (dispatch: Dispatch): Promise<void> => {
     try {
-      const link = "http://localhost:8080/auth/login";
+      dispatch(setIsLoginError(false));
+      const link = "http://localhost:8081/auth/login";
       const response = await fetch(link, {
         method: "POST",
         headers: {
@@ -73,8 +74,8 @@ export const login = (input: inputLogin) => {
         throw new Error(errorMsg.errors[0].message);
       }
       const data: ResLogin = await response.json();
-      dispatch(setUserToken(data));
-      localStorage.setItem("token", data.token);
+      dispatch(setUserToken(data.Data.token));
+      localStorage.setItem("token", data.Data.token);
     } catch (error) {
       dispatch(setIsLoginError(true));
       if (error instanceof Error) {
@@ -90,7 +91,9 @@ export const login = (input: inputLogin) => {
 export const register = (input: inputRegister) => {
   return async (dispatch: Dispatch): Promise<void> => {
     try {
-      const link = "http://localhost:8080/auth/register";
+      dispatch(setRegisterSuccess(false));
+      dispatch(setIsRegisterError(false));
+      const link = "http://localhost:8081/auth/register";
       const response = await fetch(link, {
         method: "POST",
         headers: {
@@ -112,11 +115,11 @@ export const register = (input: inputRegister) => {
       };
       login(newUser);
     } catch (error) {
-      dispatch(setIsLoginError(true));
+      dispatch(setIsRegisterError(true));
       if (error instanceof Error) {
-        dispatch(setErrorLoginMsg(error.message));
+        dispatch(setErrorRegisterMsg(error.message));
       } else {
-        dispatch(setErrorLoginMsg("Something wrong with the server"));
+        dispatch(setErrorRegisterMsg("Something wrong with the server"));
       }
       throw error;
     }
