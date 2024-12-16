@@ -38,10 +38,11 @@ func (route *Route) SetRoutes() http.Handler {
 	logger.SetLogger(logrusLogger)
 	r := gin.New()
 	r.ContextWithFallback = true
-	r.Use(middleware.ErrorMiddleware, middleware.LoggerMiddleware(), gin.Recovery())
+	r.Use(middleware.ErrorMiddleware, middleware.LoggerMiddleware(), gin.Recovery(),
+		middleware.CORS())
 
-	r.POST("/user/login", route.userHandler.Login)
-	r.POST("/user/register", route.userHandler.Register)
+	r.POST("/auth/login", route.userHandler.Login)
+	r.POST("/auth/register", route.userHandler.Register)
 	r.GET("/contact", middleware.AuthMiddleware(), route.contactHandler.GetContact)
 
 	return r
