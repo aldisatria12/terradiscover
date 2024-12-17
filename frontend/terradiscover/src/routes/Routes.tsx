@@ -3,6 +3,7 @@ import { LoginPage } from "../pages/Login/LoginPage";
 import { RegisterPage } from "../pages/Register/RegisterPage";
 import ProtectedRoute from "./ProtectedRoute";
 import { ContactPage } from "../pages/Contact/ContactPage";
+import { NewContactPage } from "../pages/NewContactPage/NewContactPage";
 
 const routes = createBrowserRouter([
   {
@@ -26,6 +27,14 @@ const routes = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <ContactPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/contact/create",
+    element: (
+      <ProtectedRoute>
+        <NewContactPage />
       </ProtectedRoute>
     ),
   }

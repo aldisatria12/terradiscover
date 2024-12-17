@@ -8,6 +8,7 @@ import { inputRegister } from "../../constants/types/typeAuth";
 import { register as registerUser } from "../../store/authSlice";
 import style from "./RegisterPage.module.css";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Backdrop } from "../../component/UI/backdrop";
 
 export const RegisterPage: React.FC = () => {
     const { register, handleSubmit } = useForm();
@@ -41,43 +42,46 @@ export const RegisterPage: React.FC = () => {
 
     return (
         <div className={style.login_page}>
-            <form className={style.login_form} noValidate onSubmit={handleSubmit((data: any) => clickSubmit(data))}>
-                <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-                    <TextField id="outlined-basic" label="Email" variant="outlined" {...register("email", {
-                        required: "Required",
-                    })} />
-                </FormControl>
-                <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-                    <TextField id="outlined-basic" label="Username" variant="outlined" {...register("username", {
-                        required: "Required",
-                    })} />
-                </FormControl>
-                <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Password
-                    </InputLabel>
-                    <OutlinedInput id="outlined-basic" type={showPassword ? 'text' : 'password'}
-                        endAdornment={
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label={
-                                        showPassword ? 'hide the password' : 'display the password'
-                                    }
-                                    onClick={handleClickShowPassword}
-                                    onMouseDown={handleMouseDownPassword}
-                                    onMouseUp={handleMouseUpPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        } label="Password"  {...register("password", {
+            <Backdrop>
+                <h2>Register</h2>
+                <form className={style.login_form} noValidate onSubmit={handleSubmit((data: any) => clickSubmit(data))}>
+                    <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
+                        <TextField id="outlined-basic" label="Email" variant="outlined" {...register("email", {
                             required: "Required",
                         })} />
-                </FormControl>
-                <Button type="submit">
-                    Submit
-                </Button>
-            </form>
+                    </FormControl>
+                    <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
+                        <TextField id="outlined-basic" label="Username" variant="outlined" {...register("username", {
+                            required: "Required",
+                        })} />
+                    </FormControl>
+                    <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Password
+                        </InputLabel>
+                        <OutlinedInput id="outlined-basic" type={showPassword ? 'text' : 'password'}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label={
+                                            showPassword ? 'hide the password' : 'display the password'
+                                        }
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        onMouseUp={handleMouseUpPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            } label="Password"  {...register("password", {
+                                required: "Required",
+                            })} />
+                    </FormControl>
+                    <Button type="submit">
+                        Submit
+                    </Button>
+                </form>
+            </Backdrop>
         </div >
     )
 }
