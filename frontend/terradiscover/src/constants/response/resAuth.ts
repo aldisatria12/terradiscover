@@ -1,16 +1,17 @@
 export type ResLogin = {
   Data: {
     token: string;
-  }
+  };
   Msg: string;
 };
 
 export type ResRegister = {
-  data: {
+  Data: {
     id: number;
     username: string;
     email: string;
   };
+  Msg: string;
 };
 
 export type ResError = {
