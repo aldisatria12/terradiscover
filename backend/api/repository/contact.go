@@ -9,6 +9,7 @@ import (
 
 type ContactRepository interface {
 	GetContact(ctx context.Context, userId int) ([]entity.Contact, error)
+	InsertContact(ctx context.Context, input entity.Contact) error
 }
 
 type contactRepository struct {
@@ -42,4 +43,16 @@ func (r contactRepository) GetContact(ctx context.Context, userId int) ([]entity
 	}
 
 	return contactList, nil
+}
+
+func (r contactRepository) InsertContact(ctx context.Context, input entity.Contact) error {
+	var userId int
+	query := "INSERT INTO contacts(user_id, name, phone, email) VALUES ($1, $2, $3, $4) RETURNING id;"
+	err := r.db.QueryRowContext(ctx, query, input.UserId, input.Name, input.Phone, input.Email).Scan(&userId)
+
+	if err != nil {
+		return apperror.NewError(err, apperror.ErrQuery)
+	}
+
+	return nil
 }

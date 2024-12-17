@@ -16,6 +16,7 @@ type DBTX interface {
 type DataStore interface {
 	StartTransaction(ctx context.Context, fn func(ds DataStore) (any, error)) (any, error)
 	GetUserRepository() UserRepository
+	GetContactRepository() ContactRepository
 }
 
 type dataStore struct {
@@ -32,6 +33,10 @@ func NewDataStore(db *sql.DB) dataStore {
 
 func (ds dataStore) GetUserRepository() UserRepository {
 	return NewUserRepository(ds.db)
+}
+
+func (ds dataStore) GetContactRepository() ContactRepository {
+	return NewContactRepository(ds.db)
 }
 
 func (ds dataStore) StartTransaction(ctx context.Context, fn func(ds DataStore) (any, error)) (any, error) {
