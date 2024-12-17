@@ -1,12 +1,16 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { ResError } from "../constants/response/resAuth";
 import { ResContact } from "../constants/response/resContact";
+import { inputContact } from "../constants/types/typeContact";
 
 export interface ContactState {
     contactList: ResContact | null;
     isGetContactError: boolean;
     isGetContactSuccess: boolean;
     errorGetContactMsg: string | null;
+    isInsertContactError: boolean;
+    isInsertContactSuccess: boolean;
+    errorInsertContactMsg: string | null;
 }
 
 const initialState: ContactState = {
@@ -14,6 +18,9 @@ const initialState: ContactState = {
     isGetContactError: false,
     isGetContactSuccess: false,
     errorGetContactMsg: null,
+    isInsertContactError: false,
+    isInsertContactSuccess: false,
+    errorInsertContactMsg: null,
 };
 
 export const appSlice = createSlice({
@@ -32,6 +39,15 @@ export const appSlice = createSlice({
         setGetContactSuccess: (state, action) => {
             state.errorGetContactMsg = action.payload;
         },
+        setIsInsertContactError: (state, action) => {
+            state.isInsertContactError = action.payload;
+        },
+        setErrorInsertContactMsg: (state, action) => {
+            state.isInsertContactSuccess = action.payload;
+        },
+        setInsertContactSuccess: (state, action) => {
+            state.errorInsertContactMsg = action.payload;
+        },
     },
 });
 
@@ -40,6 +56,9 @@ export const {
     setIsGetContactError,
     setErrorGetContactMsg,
     setGetContactSuccess,
+    setIsInsertContactError,
+    setErrorInsertContactMsg,
+    setInsertContactSuccess,
 } = appSlice.actions;
 
 export const getContactList = () => {
@@ -69,6 +88,38 @@ export const getContactList = () => {
                 dispatch(setErrorGetContactMsg(error.message));
             } else {
                 dispatch(setErrorGetContactMsg("Something wrong with the server"));
+            }
+            throw error;
+        }
+    };
+};
+
+export const insertContact = (input: inputContact) => {
+    return async (dispatch: Dispatch): Promise<void> => {
+        try {
+            dispatch(setIsInsertContactError(false));
+            const link = "http://localhost:8081/contact/insert";
+            const response = await fetch(link, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                },
+                body: JSON.stringify(input)
+            });
+            if (!response.ok) {
+                const errorMsg: ResError = await response.json();
+                if (!errorMsg.errors) {
+                    throw new Error(errorMsg.message);
+                }
+                throw new Error(errorMsg.errors[0].message);
+            }
+        } catch (error) {
+            dispatch(setIsInsertContactError(true));
+            if (error instanceof Error) {
+                dispatch(setErrorInsertContactMsg(error.message));
+            } else {
+                dispatch(setErrorInsertContactMsg("Something wrong with the server"));
             }
             throw error;
         }
