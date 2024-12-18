@@ -107,6 +107,7 @@ export const insertContact = (input: inputContact) => {
                 },
                 body: JSON.stringify(input)
             });
+            console.log(JSON.stringify(input))
             if (!response.ok) {
                 const errorMsg: ResError = await response.json();
                 if (!errorMsg.errors) {

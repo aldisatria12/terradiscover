@@ -4,8 +4,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../store/store";
 import { useForm } from "react-hook-form";
-import { inputRegister } from "../../constants/types/typeAuth";
-import { register as registerUser } from "../../store/authSlice";
+import { inputLogin, inputRegister } from "../../constants/types/typeAuth";
+import { register as registerUser, login } from "../../store/authSlice";
 import style from "./RegisterPage.module.css";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Backdrop } from "../../component/UI/backdrop";
@@ -36,7 +36,11 @@ export const RegisterPage: React.FC = () => {
         } catch (error) {
             console.log(error);
         } finally {
-            navigate("/");
+            const loginInput: inputLogin = {
+                email: user.email,
+                password: user.password
+            }
+            await dispatch(login(loginInput)).finally(() => navigate("/"));
         }
     };
 
@@ -78,8 +82,12 @@ export const RegisterPage: React.FC = () => {
                             })} />
                     </FormControl>
                     <Button type="submit">
-                        Submit
+                        Register
                     </Button>
+
+                    <a onClick={() => navigate("/login")}>
+                        Login to your account!
+                    </a>
                 </form>
             </Backdrop>
         </div >

@@ -76,8 +76,12 @@ export const LoginPage: React.FC = () => {
                             })} />
                     </FormControl>
                     <Button type="submit">
-                        Submit
+                        Login
                     </Button>
+
+                    <a onClick={() => navigate("/register")}>
+                        Register a new account!
+                    </a>
                 </form>
             </Backdrop>
         </div >

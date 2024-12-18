@@ -33,7 +33,7 @@ export const NewContactPage: React.FC = () => {
                 <h2>Create Contact</h2>
                 <form className={style.login_form} noValidate onSubmit={handleSubmit((data: any) => clickSubmit(data))}>
                     <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-                        <TextField id="outlined-basic" label="Name" variant="outlined" {...register("username", {
+                        <TextField id="outlined-basic" label="Name" variant="outlined" {...register("name", {
                             required: "Required",
                         })} />
                     </FormControl>
