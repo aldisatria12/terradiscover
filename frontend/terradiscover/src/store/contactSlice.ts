@@ -2,6 +2,7 @@ import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { ResError } from "../constants/response/resAuth";
 import { ResContact } from "../constants/response/resContact";
 import { inputContact } from "../constants/types/typeContact";
+import { backEndURL } from "../constants/constants";
 
 export interface ContactState {
     contactList: ResContact | null;
@@ -65,7 +66,7 @@ export const getContactList = () => {
     return async (dispatch: Dispatch): Promise<void> => {
         try {
             dispatch(setIsGetContactError(false));
-            const link = "http://localhost:8081/contact";
+            const link = backEndURL + "/contact";
             const response = await fetch(link, {
                 method: "GET",
                 headers: {
@@ -98,7 +99,7 @@ export const insertContact = (input: inputContact) => {
     return async (dispatch: Dispatch): Promise<void> => {
         try {
             dispatch(setIsInsertContactError(false));
-            const link = "http://localhost:8081/contact/insert";
+            const link = backEndURL + "/contact/insert";
             const response = await fetch(link, {
                 method: "POST",
                 headers: {

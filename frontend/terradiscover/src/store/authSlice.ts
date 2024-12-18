@@ -1,6 +1,7 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { ResError, ResLogin } from "../constants/response/resAuth";
 import { inputLogin, inputRegister } from "../constants/types/typeAuth";
+import { backEndURL } from "../constants/constants";
 
 export interface AuthState {
   userToken: ResLogin | null;
@@ -58,7 +59,7 @@ export const login = (input: inputLogin) => {
   return async (dispatch: Dispatch): Promise<void> => {
     try {
       dispatch(setIsLoginError(false));
-      const link = "http://localhost:8081/auth/login";
+      const link = backEndURL + "/auth/login";
       const response = await fetch(link, {
         method: "POST",
         headers: {
@@ -93,7 +94,7 @@ export const register = (input: inputRegister) => {
     try {
       dispatch(setRegisterSuccess(false));
       dispatch(setIsRegisterError(false));
-      const link = "http://localhost:8081/auth/register";
+      const link = backEndURL + "/auth/register";
       const response = await fetch(link, {
         method: "POST",
         headers: {

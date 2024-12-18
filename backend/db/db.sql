@@ -1,3 +1,7 @@
+CREATE DATABASE terradb;
+
+\c terradb;
+
 CREATE TABLE IF NOT EXISTS users (
 	id BIGSERIAL PRIMARY KEY,
 	username VARCHAR(18),
