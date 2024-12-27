@@ -63,3 +63,26 @@ func (s contactService) InsertContact(ctx context.Context, input dto.NewContactR
 
 	return nil
 }
+
+func (s contactService) EditContact(ctx context.Context, input dto.EditContactRequest) error {
+	txFunction := func(ds repository.DataStore) (any, error) {
+		contactRepo := ds.GetContactRepository()
+
+		editContact := dto.FromEditContactRequest(input)
+
+		err := contactRepo.EditContact(ctx, editContact)
+		if err != nil {
+			return nil, err
+		}
+
+		return nil, nil
+	}
+
+	_, err := s.dataStore.StartTransaction(ctx, txFunction)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
