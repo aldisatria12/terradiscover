@@ -31,3 +31,19 @@ func FromNewContactRequest(request NewContactRequest) entity.Contact {
 		Email: request.Email,
 	}
 }
+
+type EditContactRequest struct {
+	Id    int    `json:"id" validate:"required"`
+	Name  string `json:"name" validate:"required"`
+	Phone string `json:"phone" validate:"required"`
+	Email string `json:"email" validate:"email"`
+}
+
+func FromEditContactRequest(request EditContactRequest) entity.Contact {
+	return entity.Contact{
+		Id:    request.Id,
+		Name:  request.Name,
+		Phone: request.Phone,
+		Email: request.Email,
+	}
+}

@@ -83,3 +83,42 @@ func (h ContactHandler) InsertContact(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response)
 }
+
+func (h ContactHandler) EditContact(c *gin.Context) {
+	var editContact dto.EditContactRequest
+	err := c.ShouldBindJSON(&editContact)
+
+	if err != nil {
+		c.Error(err)
+
+		return
+	}
+
+	validate := validator.New()
+	err = validate.Struct(editContact)
+
+	if err != nil {
+		c.Error(err)
+
+		return
+	}
+
+	if c.Keys["user_id"] == nil {
+		c.Error(apperror.NewError(nil, apperror.ErrAuthorization))
+		return
+	}
+
+	err = h.contactService.EditContact(c, editContact)
+
+	if err != nil {
+		c.Error(err)
+
+		return
+	}
+
+	response := gin.H{
+		"Msg": "OK",
+	}
+
+	c.JSON(http.StatusOK, response)
+}

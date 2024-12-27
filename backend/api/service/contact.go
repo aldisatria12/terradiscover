@@ -10,6 +10,7 @@ import (
 type ContactService interface {
 	GetContact(ctx context.Context, userId int) ([]dto.ContactResponse, error)
 	InsertContact(ctx context.Context, input dto.NewContactRequest, id int) error
+	EditContact(ctx context.Context, input dto.EditContactRequest) error
 }
 
 type contactService struct {
@@ -48,6 +49,29 @@ func (s contactService) InsertContact(ctx context.Context, input dto.NewContactR
 		newContact.UserId = id
 
 		err := contactRepo.InsertContact(ctx, newContact)
+		if err != nil {
+			return nil, err
+		}
+
+		return nil, nil
+	}
+
+	_, err := s.dataStore.StartTransaction(ctx, txFunction)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s contactService) EditContact(ctx context.Context, input dto.EditContactRequest) error {
+	txFunction := func(ds repository.DataStore) (any, error) {
+		contactRepo := ds.GetContactRepository()
+
+		editContact := dto.FromEditContactRequest(input)
+
+		err := contactRepo.EditContact(ctx, editContact)
 		if err != nil {
 			return nil, err
 		}

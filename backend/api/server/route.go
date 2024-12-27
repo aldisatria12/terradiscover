@@ -45,6 +45,7 @@ func (route *Route) SetRoutes() http.Handler {
 	r.POST("/auth/register", route.userHandler.Register)
 	r.GET("/contact", middleware.AuthMiddleware(), route.contactHandler.GetContact)
 	r.POST("/contact/insert", middleware.AuthMiddleware(), route.contactHandler.InsertContact)
+	r.POST("/contact/edit", middleware.AuthMiddleware(), route.contactHandler.EditContact)
 
 	return r
 }
