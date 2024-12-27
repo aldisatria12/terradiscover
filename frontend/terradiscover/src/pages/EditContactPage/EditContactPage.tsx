@@ -10,7 +10,7 @@ export const EditContactPage: React.FC = () => {
     return (
         <div className={style.login_page}>
             <Backdrop>
-                <h2>Create Contact</h2>
+                <h2>Edit Contact</h2>
                 <form className={style.login_form} noValidate>
                     <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
                         <TextField id="outlined-basic" label="Name" variant="outlined" {...register("name", {
