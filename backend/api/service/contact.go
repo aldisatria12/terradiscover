@@ -10,6 +10,7 @@ import (
 type ContactService interface {
 	GetContact(ctx context.Context, userId int) ([]dto.ContactResponse, error)
 	InsertContact(ctx context.Context, input dto.NewContactRequest, id int) error
+	EditContact(ctx context.Context, input dto.EditContactRequest) error
 }
 
 type contactService struct {
