@@ -11,24 +11,21 @@ import { contact } from "../../constants/types/typeContact";
 
 export const EditContactPage: React.FC = () => {
     const { register, handleSubmit } = useForm();
-    const params = useParams();
+    const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const { selectedContact } = useSelector(
         (state: RootState) => state.contactSlice
     );
-
     useEffect(() => {
-        if (params.id) {
-            const id = params.id
+        if (id) {
             dispatch(getContactByID(id))
         }
-    }, []);
+    }, [id]);
 
     const clickSubmit = async (data: any) => {
         const changeContact: contact = data;
-        if (params.id) {
-            const id = params.id
+        if (id) {
             changeContact.id = Number(id)
         }
         try {

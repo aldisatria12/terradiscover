@@ -4,7 +4,7 @@ import { RegisterPage } from "../pages/Register/RegisterPage";
 import ProtectedRoute from "./ProtectedRoute";
 import { ContactPage } from "../pages/Contact/ContactPage";
 import { NewContactPage } from "../pages/NewContactPage/NewContactPage";
-import { EditContactPage } from "../pages/EditContactPage/EditContactPage";
+import { EditContactParent } from "../pages/EditContactPage/EditContactPageParent";
 
 const routes = createBrowserRouter([
   {
@@ -43,7 +43,7 @@ const routes = createBrowserRouter([
     path: "/contact/edit/:id",
     element: (
       <ProtectedRoute>
-        <EditContactPage />
+        <EditContactParent />
       </ProtectedRoute>
     ),
   }

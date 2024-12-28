@@ -45,7 +45,7 @@ func (h ContactHandler) GetContact(c *gin.Context) {
 }
 
 func (h ContactHandler) GetContactById(c *gin.Context) {
-	reqContactId := c.Param("pid")
+	reqContactId := c.Param("id")
 	contactId, err := strconv.Atoi(reqContactId)
 
 	if err != nil {
