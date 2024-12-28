@@ -29,17 +29,17 @@ export const EditContactPage: React.FC = () => {
                 <h2>Edit Contact</h2>
                 <form className={style.login_form} noValidate>
                     <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-                        <TextField id="outlined-basic" defaultValue={selectedContact?.Data.name} label="Name" variant="outlined" {...register("name", {
+                        <TextField id="outlined-basic" defaultValue={selectedContact?.Data.name ?? ""} label="Name" variant="outlined" {...register("name", {
                             required: "Required",
                         })} />
                     </FormControl>
                     <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-                        <TextField id="outlined-basic" defaultValue={selectedContact?.Data.phone} label="Phone" variant="outlined" {...register("phone", {
+                        <TextField id="outlined-basic" defaultValue={selectedContact?.Data.phone ?? ""} label="Phone" variant="outlined" {...register("phone", {
                             required: "Required",
                         })} />
                     </FormControl>
                     <FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-                        <TextField id="outlined-basic" defaultValue={selectedContact?.Data.email} label="Email" variant="outlined" {...register("email", {
+                        <TextField id="outlined-basic" defaultValue={selectedContact?.Data.email ?? ""} label="Email" variant="outlined" {...register("email", {
                             required: "Required",
                         })} />
                     </FormControl>
