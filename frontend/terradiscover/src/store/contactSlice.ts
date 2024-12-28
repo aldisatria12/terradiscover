@@ -1,7 +1,7 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { ResError } from "../constants/response/resAuth";
 import { ResContact, ResSelectedContact } from "../constants/response/resContact";
-import { inputContact } from "../constants/types/typeContact";
+import { contact, inputContact } from "../constants/types/typeContact";
 import { backEndURL } from "../constants/constants";
 
 export interface ContactState {
@@ -141,6 +141,39 @@ export const insertContact = (input: inputContact) => {
             const link = backEndURL + "/contact/insert";
             const response = await fetch(link, {
                 method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                },
+                body: JSON.stringify(input)
+            });
+            console.log(JSON.stringify(input))
+            if (!response.ok) {
+                const errorMsg: ResError = await response.json();
+                if (!errorMsg.errors) {
+                    throw new Error(errorMsg.message);
+                }
+                throw new Error(errorMsg.errors[0].message);
+            }
+        } catch (error) {
+            dispatch(setIsInsertContactError(true));
+            if (error instanceof Error) {
+                dispatch(setErrorInsertContactMsg(error.message));
+            } else {
+                dispatch(setErrorInsertContactMsg("Something wrong with the server"));
+            }
+            throw error;
+        }
+    };
+};
+
+export const editContact = (input: contact) => {
+    return async (dispatch: Dispatch): Promise<void> => {
+        try {
+            dispatch(setIsInsertContactError(false));
+            const link = backEndURL + "/contact/edit";
+            const response = await fetch(link, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: "Bearer " + localStorage.getItem("token")
