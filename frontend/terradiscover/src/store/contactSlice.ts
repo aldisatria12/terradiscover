@@ -1,11 +1,12 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import { ResError } from "../constants/response/resAuth";
-import { ResContact } from "../constants/response/resContact";
+import { ResContact, ResSelectedContact } from "../constants/response/resContact";
 import { inputContact } from "../constants/types/typeContact";
 import { backEndURL } from "../constants/constants";
 
 export interface ContactState {
     contactList: ResContact | null;
+    selectedContact: ResSelectedContact | null;
     isGetContactError: boolean;
     isGetContactSuccess: boolean;
     errorGetContactMsg: string | null;
@@ -16,6 +17,7 @@ export interface ContactState {
 
 const initialState: ContactState = {
     contactList: null,
+    selectedContact: null,
     isGetContactError: false,
     isGetContactSuccess: false,
     errorGetContactMsg: null,
@@ -30,6 +32,9 @@ export const appSlice = createSlice({
     reducers: {
         setContactList: (state, action) => {
             state.contactList = action.payload;
+        },
+        setSelectedContact: (state, action) => {
+            state.selectedContact = action.payload;
         },
         setIsGetContactError: (state, action) => {
             state.isGetContactError = action.payload;
@@ -54,6 +59,7 @@ export const appSlice = createSlice({
 
 export const {
     setContactList,
+    setSelectedContact,
     setIsGetContactError,
     setErrorGetContactMsg,
     setGetContactSuccess,
@@ -83,6 +89,39 @@ export const getContactList = () => {
             }
             const data: ResContact = await response.json();
             dispatch(setContactList(data));
+        } catch (error) {
+            dispatch(setIsGetContactError(true));
+            if (error instanceof Error) {
+                dispatch(setErrorGetContactMsg(error.message));
+            } else {
+                dispatch(setErrorGetContactMsg("Something wrong with the server"));
+            }
+            throw error;
+        }
+    };
+};
+
+export const getContactByID = (id: string) => {
+    return async (dispatch: Dispatch): Promise<void> => {
+        try {
+            dispatch(setIsGetContactError(false));
+            const link = backEndURL + "/contact/" + id;
+            const response = await fetch(link, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                },
+            });
+            if (!response.ok) {
+                const errorMsg: ResError = await response.json();
+                if (!errorMsg.errors) {
+                    throw new Error(errorMsg.message);
+                }
+                throw new Error(errorMsg.errors[0].message);
+            }
+            const data: ResSelectedContact = await response.json();
+            dispatch(setSelectedContact(data));
         } catch (error) {
             dispatch(setIsGetContactError(true));
             if (error instanceof Error) {
