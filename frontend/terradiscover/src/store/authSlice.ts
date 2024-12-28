@@ -60,6 +60,7 @@ export const login = (input: inputLogin) => {
     try {
       dispatch(setIsLoginError(false));
       const link = backEndURL + "/auth/login";
+      console.log(input)
       const response = await fetch(link, {
         method: "POST",
         headers: {
