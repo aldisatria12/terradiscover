@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/aldisatria12/terradiscover/apperror"
 	"github.com/aldisatria12/terradiscover/dto"
@@ -38,6 +39,30 @@ func (h ContactHandler) GetContact(c *gin.Context) {
 	response := gin.H{
 		"Msg":  "OK",
 		"Data": contactList,
+	}
+
+	c.JSON(http.StatusOK, response)
+}
+
+func (h ContactHandler) GetContactById(c *gin.Context) {
+	reqContactId := c.Param("pid")
+	contactId, err := strconv.Atoi(reqContactId)
+
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	contact, err := h.contactService.GetContactById(c, contactId)
+
+	if err != nil {
+		c.Error(err)
+		return
+	}
+
+	response := gin.H{
+		"Msg":  "OK",
+		"Data": contact,
 	}
 
 	c.JSON(http.StatusOK, response)
