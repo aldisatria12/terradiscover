@@ -4,6 +4,7 @@ import { RegisterPage } from "../pages/Register/RegisterPage";
 import ProtectedRoute from "./ProtectedRoute";
 import { ContactPage } from "../pages/Contact/ContactPage";
 import { NewContactPage } from "../pages/NewContactPage/NewContactPage";
+import { EditContactPage } from "../pages/EditContactPage/EditContactPage";
 
 const routes = createBrowserRouter([
   {
@@ -35,6 +36,14 @@ const routes = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <NewContactPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/contact/edit/:id",
+    element: (
+      <ProtectedRoute>
+        <EditContactPage />
       </ProtectedRoute>
     ),
   }

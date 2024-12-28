@@ -6,6 +6,7 @@ import { getContactList } from "../../store/contactSlice";
 import AddIcon from '@mui/icons-material/Add';
 import { FloatingButton } from "../../component/UI/floatingButton";
 import { useNavigate } from "react-router-dom";
+import EditIcon from '@mui/icons-material/Edit';
 
 export const ContactPage: React.FC = () => {
     const { contactList } = useSelector(
@@ -29,10 +30,11 @@ export const ContactPage: React.FC = () => {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="right">id</TableCell>
+                            <TableCell align="right">No</TableCell>
                             <TableCell align="right">Name</TableCell>
                             <TableCell align="right">Phone</TableCell>
                             <TableCell align="right">Email</TableCell>
+                            <TableCell align="right">Edit</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -47,6 +49,9 @@ export const ContactPage: React.FC = () => {
                                 <TableCell align="right">{row.name}</TableCell>
                                 <TableCell align="right">{row.phone}</TableCell>
                                 <TableCell align="right">{row.email}</TableCell>
+                                <TableCell align="right"><Button variant="contained" color="primary" onClick={() => {
+                                    navigate("/contact/edit/" + row.id)
+                                }}>Edit</Button></TableCell>
                             </TableRow>
                         )) : <></>}
                     </TableBody>
