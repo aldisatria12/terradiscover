@@ -9,6 +9,7 @@ import (
 
 type ContactService interface {
 	GetContact(ctx context.Context, userId int) ([]dto.ContactResponse, error)
+	GetContactById(ctx context.Context, userId int) (dto.ContactResponse, error)
 	InsertContact(ctx context.Context, input dto.NewContactRequest, id int) error
 	EditContact(ctx context.Context, input dto.EditContactRequest) error
 }
@@ -37,6 +38,18 @@ func (s contactService) GetContact(ctx context.Context, userId int) ([]dto.Conta
 	for _, contact := range contactList {
 		result = append(result, dto.ToContactResponse(contact))
 	}
+
+	return result, nil
+}
+
+func (s contactService) GetContactById(ctx context.Context, userId int) (dto.ContactResponse, error) {
+	contact, err := s.contactRepository.GetContactById(ctx, userId)
+
+	if err != nil {
+		return dto.ContactResponse{}, err
+	}
+
+	var result dto.ContactResponse = dto.ToContactResponse(contact)
 
 	return result, nil
 }

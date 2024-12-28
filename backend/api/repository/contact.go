@@ -11,6 +11,7 @@ type ContactRepository interface {
 	GetContact(ctx context.Context, userId int) ([]entity.Contact, error)
 	InsertContact(ctx context.Context, input entity.Contact) error
 	EditContact(ctx context.Context, input entity.Contact) error
+	GetContactById(ctx context.Context, userId int) (entity.Contact, error)
 }
 
 type contactRepository struct {
@@ -41,6 +42,20 @@ func (r contactRepository) GetContact(ctx context.Context, userId int) ([]entity
 		}
 
 		contactList = append(contactList, contact)
+	}
+
+	return contactList, nil
+}
+
+func (r contactRepository) GetContactById(ctx context.Context, userId int) (entity.Contact, error) {
+	var contactList entity.Contact
+
+	query := `SELECT id, name, phone, email FROM contacts WHERE id = $1 AND deleted_at IS NULL;`
+
+	err := r.db.QueryRowContext(ctx, query, userId).Scan(contactList)
+
+	if err != nil {
+		return entity.Contact{}, apperror.NewError(err, apperror.ErrQuery)
 	}
 
 	return contactList, nil
