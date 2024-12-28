@@ -52,7 +52,7 @@ func (r contactRepository) GetContactById(ctx context.Context, userId int) (enti
 
 	query := `SELECT id, name, phone, email FROM contacts WHERE id = $1 AND deleted_at IS NULL;`
 
-	err := r.db.QueryRowContext(ctx, query, userId).Scan(contactList)
+	err := r.db.QueryRowContext(ctx, query, userId).Scan(&contactList.Id, &contactList.Name, &contactList.Phone, &contactList.Email)
 
 	if err != nil {
 		return entity.Contact{}, apperror.NewError(err, apperror.ErrQuery)
